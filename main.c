@@ -2,12 +2,13 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdint.h>
 
 
 int main() {
     printf("Number of digits >>"); int numDigits; scanf("%d", &numDigits);
     int userSeq[numDigits]; int genSeq[numDigits];
-    int count = 0;
+    int64_t count = 0;
     //srand(time(0));
 
     for (int i = 0; i<numDigits;i++){
@@ -15,15 +16,15 @@ int main() {
     }
 
     bool isEqual = false;
-    int startTime = clock();
+    long startTime = clock();
     while(!isEqual){
         count ++;
-        printf(" Sequences per second: %f\n%s %d :: ",(float)count/((clock()-startTime)/CLOCKS_PER_SEC), "Day ", count);
-
+        if(count % 10000000 == 0) {
+            printf("\nDay %lld :: Sequences per second: %lld", count, count / ((clock() - startTime) / CLOCKS_PER_SEC));
+        }
         isEqual = true;
         for (int i=0;i<numDigits;i++){
             genSeq[i] = rand() % (9 - 1 + 1) + 1;
-            printf(" %d", genSeq[i]);
             if(userSeq[i] != genSeq[i]){
                 isEqual = false;
             }
@@ -31,5 +32,5 @@ int main() {
 
     }
 
-    return 0;
+    return *genSeq;
 }
